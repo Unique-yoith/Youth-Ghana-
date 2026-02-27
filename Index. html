@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouthOS – Ultimate Green Dark Platform</title>
+<style>
+:root {
+  --primary-dark: #0f2f1c;
+  --primary-light: #22c55e;
+  --accent: #34d399;
+  --card-bg: #1f3a2f;
+  --text-light: #e0f2f1;
+  --hover: #059669;
+  --notif-bg: #f87171;
+}
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--primary-dark);
+  color:var(--text-light);
+}
+header {
+  background:var(--primary-light);
+  padding:15px;
+  text-align:center;
+  font-size:20px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+nav {
+  display:flex;
+  justify-content:space-around;
+  background:#166534;
+  padding:10px;
+  flex-wrap:wrap;
+}
+nav button {
+  background:none;
+  border:none;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  margin:2px;
+  padding:5px 10px;
+  border-radius:6px;
+  transition:0.3s;
+}
+nav button:hover {background:var(--hover);}
+nav button.active {background:var(--accent);}
+section {
+  display:none;
+  padding:15px;
+}
+section.active {display:block;}
+.container {max-width:600px;margin:0 auto;}
+.card {
+  background:var(--card-bg);
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.3);
+}
+input,textarea,select {
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  background:#2f4b3f;
+  color:white;
+}
+button.submit-btn {
+  background:var(--primary-light);
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:6px;
+  width:100%;
+  font-weight:bold;
+  margin-top:5px;
+  cursor:pointer;
+}
+button.submit-btn:hover {background:var(--hover);}
+.feed-item,.vote-item,.chat-message,.platform-card,.pending-card{
+  background:#274738;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:8px;
+}
+iframe {width:100%;height:250px;border-radius:10px;margin-bottom:15px;}
+.balance {
+  background:var(--accent);
+  color:black;
+  padding:8px;
+  border-radius:6px;
+  text-align:center;
+  margin-top:5px;
+}
+.notif-badge {
+  background:var(--notif-bg);
+  color:white;
+  border-radius:50%;
+  padding:3px 7px;
+  font-size:12px;
+  vertical-align:super;
+}
+footer {
+  text-align:center;
+  padding:10px;
+  font-size:14px;
+  color:#a7f3d0;
+}
+</style>
+</head>
+<body>
+
+<header>
+⚡ YouthOS – Ultimate Green Dark Platform
+<div class="balance" id="userBalance">Balance: 0 Points</div>
+</header>
+
+<nav>
+<button class="tab-btn active" onclick="openTab('ideas')">Ideas</button>
+<button class="tab-btn" onclick="openTab('voting')">Voting</button>
+<button class="tab-btn" onclick="openTab('chat')">Chat</button>
+<button class="tab-btn" onclick="openTab('media')">Media</button>
+<button class="tab-btn" onclick="openTab('ai')">AI Help</button>
+<button class="tab-btn" onclick="openTab('create')">Create Platform</button>
+<button class="tab-btn" onclick="openTab('admin')">Admin <span id="notifBadge" class="notif-badge" style="display:none;">0</span></button>
+</nav>
+
+<!-- Ideas Section -->
+<section id="ideas" class="active">
+<div class="container">
+<div class="card">
+<h3>Submit Your Idea</h3>
+<input type="text" id="ideaTitle" placeholder="Idea title">
+<textarea id="ideaDesc" placeholder="Describe your idea"></textarea>
+<button class="submit-btn" onclick="submitIdea()">Submit</button>
+</div>
+<div class="card">
+<h3>Community Ideas Feed</h3>
+<div id="ideaFeed"></div>
+</div>
+</div>
+</section>
+
+<!-- Voting Section -->
+<section id="voting">
+<div class="container">
+<div class="card">
+<h3>Vote for Ideas</h3>
+<div id="voteFeed">
+<div class="vote-item">Idea 1 <button onclick="vote(this)">Vote</button></div>
+<div class="vote-item">Idea 2 <button onclick="vote(this)">Vote</button></div>
+<div class="vote-item">Idea 3 <button onclick="vote(this)">Vote</button></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Chat Section -->
+<section id="chat">
+<div class="container">
+<div class="card" id="chatBox" style="height:300px;overflow-y:auto;"></div>
+<input type="text" id="chatInput" placeholder="Type your message">
+<button class="submit-btn" onclick="sendMessage()">Send</button>
+</div>
+</section>
+
+<!-- Media Section -->
+<section id="media">
+<div class="container">
+<div class="card">
+<h3>Government Updates</h3>
+<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+</div>
+</div>
+</section>
+
+<!-- AI Help Section -->
+<section id="ai">
+<div class="container">
+<div class="card">
+<h3>Ask AI for Guidance</h3>
+<textarea id="aiQuestion" placeholder="Type your question"></textarea>
+<button class="submit-btn" onclick="getAIAnswer()">Ask AI</button>
+<div id="aiAnswer" class="card" style="margin-top:10px;"></div>
+</div>
+</div>
+</section>
+
+<!-- Create Platform Section -->
+<section id="create">
+<div class="container">
+<div class="card">
+<h3>Create Your Own Youth Platform 💰</h3>
+<p>To create a platform, you must pay <b>$20</b> to this number: +233XXXXXXXX</p>
+<input type="text" id="platformName" placeholder="Platform Name">
+<textarea id="platformDesc" placeholder="Describe your platform"></textarea>
+<input type="color" id="platformColor" value="#22c55e">
+<button class="submit-btn" onclick="requestPlatform()">Request Approval</button>
+</div>
+<div class="card">
+<h3>Your Platforms</h3>
+<div id="platformFeed"></div>
+</div>
+</div>
+</section>
+
+<!-- Admin Section -->
+<section id="admin">
+<div class="container">
+<div class="card">
+<h3>Pending Platform Requests</h3>
+<div id="pendingPlatforms"></div>
+</div>
+</div>
+</section>
+
+<footer>
+💡 Created with guidance by YouthOS AI – Learn and create your own apps here!
+</footer>
+
+<script>
+// Tab Navigation
+function openTab(tabId){
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// User points/balance
+let userPoints = 0;
+function updateBalance(){document.getElementById('userBalance').innerText="Balance: "+userPoints+" Points";}
+
+// Ideas
+function submitIdea(){
+  let title=document.getElementById('ideaTitle').value;
+  let desc=document.getElementById('ideaDesc').value;
+  if(title==""||desc==""){alert("Fill all fields");return;}
+  let div=document.createElement('div');
+  div.className='feed-item';
+  div.innerHTML='<b>'+title+'</b><br>'+desc;
+  document.getElementById('ideaFeed').prepend(div);
+  document.getElementById('ideaTitle').value='';
+  document.getElementById('ideaDesc').value='';
+  userPoints +=10; updateBalance();
+}
+
+// Voting
+function vote(btn){btn.innerText="Voted ✅";btn.disabled=true; userPoints+=2; updateBalance();}
+
+// Chat
+function sendMessage(){
+  let msg=document.getElementById('chatInput').value;
+  if(msg=="") return;
+  let div=document.createElement('div');
+  div.className='chat-message';
+  div.innerText=msg;
+  document.getElementById('chatBox').appendChild(div);
+  document.getElementById('chatInput').value='';
+  let chatBox=document.getElementById('chatBox');
+  chatBox.scrollTop=chatBox.scrollHeight;
+  userPoints +=1; updateBalance();
+}
+
+// AI Help
+function getAIAnswer(){
+  let q=document.getElementById('aiQuestion').value;
+  if(q==""){alert("Ask a question");return;}
+  document.getElementById('aiAnswer').innerText="🤖 AI says: This is a demo. Your question: "+q;
+  document.getElementById('aiQuestion').value='';
+  userPoints +=2; updateBalance();
+}
+
+// Platform creation & admin system
+let pendingRequests = [];
+function updateNotif(){ 
+  let badge=document.getElementById('notifBadge');
+  if(pendingRequests.length>0){badge.style.display="inline"; badge.innerText=pendingRequests.length;}
+  else{badge.style.display="none";}
+}
+function requestPlatform(){
+  let name=document.getElementById('platformName').value;
+  let desc=document.getElementById('platformDesc').value;
+  let color=document.getElementById('platformColor').value;
+  if(name==""||desc==""){alert("Fill all fields"); return;}
+  let request = {name, desc, color};
+  pendingRequests.push(request);
+  
+  let div=document.createElement('div');
+  div.className='pending-card';
+  div.style.border="2px dashed "+color;
+  div.style.padding="8px";
+  div.innerHTML="<b>"+name+"</b><br>"+desc+
+  "<br><button onclick='approvePlatform(this,"+ (pendingRequests.length-1) +")'>Approve ✅</button> "+
+  "<button onclick='rejectPlatform(this,"+ (pendingRequests.length-1) +")'>Reject ❌</button>";
+  document.getElementById('pendingPlatforms').prepend(div);
+  
+  alert("Request sent! Pay $20 to +233XXXXXXXX and wait for admin approval.");
+  
+  document.getElementById('platformName').value='';
+  document.getElementById('platformDesc').value='';
+  document.getElementById('platformColor').value='#22c55e';
+  updateNotif();
+}
+
+// Approve/reject platforms
+function approvePlatform(btn,index){
+  let request = pendingRequests[index];
+  let div=document.createElement('div');
+  div.className='platform-card';
+  div.style.border="2px solid "+request.color;
+  div.innerHTML="<b style='color:"+request.color+";'>"+request.name+"</b><br>"+request.desc;
+  document.getElementById('platformFeed').prepend(div);
+  btn.parentElement.remove();
+  userPoints +=20; updateBalance();
+  pendingRequests[index]=null; updateNotif();
+}
+function rejectPlatform(btn,index){
+  btn.parentElement.remove(); pendingRequests[index]=null; updateNotif();
+  alert("Request rejected by admin.");
+}
+
+updateBalance();
+updateNotif();
+</script>
+
+</body>
+</html>
